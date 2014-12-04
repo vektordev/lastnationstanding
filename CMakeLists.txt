@@ -1,16 +1,16 @@
 #shamelessly ripped from the Ogre3d wiki tutorial framework - and expanded upon some.
 
 cmake_minimum_required(VERSION 2.6)
- 
+
 project(OgreApp)
- 
+
 if(WIN32)
 	set(CMAKE_MODULE_PATH "$ENV{OGRE_HOME}/CMake/;${CMAKE_MODULE_PATH}")
 	set(OGRE_SAMPLES_INCLUDEPATH
 		$ENV{OGRE_HOME}/Samples/include
 	)
 endif(WIN32)
- 
+
 if(UNIX)
 	if(EXISTS "/usr/local/lib/OGRE/cmake")
 
@@ -69,36 +69,24 @@ if (NOT OGRE_BUILD_PLATFORM_IPHONE)
 		find_package(Boost COMPONENTS ${OGRE_BOOST_COMPONENTS} QUIET)
 	endif()
 	find_package(Boost QUIET)
- 
+
 	# Set up referencing of Boost
 	include_directories(${Boost_INCLUDE_DIR})
 	add_definitions(-DBOOST_ALL_NO_LIB)
 	set(OGRE_LIBRARIES ${OGRE_LIBRARIES} ${Boost_LIBRARIES})
 endif()
 
-# Find BULLET ################################################################
+# Find BULLET ##################################################################
 set(BULLET_ROOT $ENV{BULLET_ROOT})
 find_package(Bullet REQUIRED)
 if(NOT BULLET_FOUND)
-message(SEND_ERROR "Failed to find BULLET.")
+	message(SEND_ERROR "Failed to find BULLET.")
 endif() 
-# /Find BULLET
+# /Find BULLET #################################################################
 
 #TODO:
-#Add src/header groups for LNS-lib, LNS-client and LNS-server
-#Add library & 2nd executable
-#expand linker instructions
-#replace executables
-
-#set(HDRS
-#	./BaseApplication.h
-#	./TutorialApplication.h
-#)
-
-#set(SRCS
-#	./BaseApplication.cpp
-#	./TutorialApplication.cpp
-#)
+#replace install script, as required.
+#change inclusion method for shared_hdr in executables?
 
 set(client_src
 	./src/client/main_client.cpp
@@ -128,14 +116,14 @@ include_directories(
 )
 
 add_library(LNS_shared STATIC ${shared_src} ${shared_hdr})
-add_executable(OgreApp WIN32 ${client_hdr} ${client_src} ${shared_hdr} ${shared_src})
-add_executable(LNS_server ${server_hdr} ${server_src} ${shared_hdr} ${shared_src})
+add_executable(OgreApp WIN32 ${client_hdr} ${client_src} ${shared_hdr})
+add_executable(LNS_server ${server_hdr} ${server_src} ${shared_hdr})
 
 set_target_properties(OgreApp PROPERTIES DEBUG_POSTFIX _d)
 set_target_properties(LNS_server PROPERTIES DEBUG_POSTFIX _d)
 
-target_link_libraries(OgreApp ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${OGRE_Overlay_LIBRARIES} ${BULLET_LIBRARIES})
-target_link_libraries(LNS_server ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${OGRE_Overlay_LIBRARIES} ${BULLET_LIBRARIES})
+target_link_libraries(OgreApp ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${OGRE_Overlay_LIBRARIES} ${BULLET_LIBRARIES} LNS_shared)
+target_link_libraries(LNS_server ${BULLET_LIBRARIES} LNS_shared)
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dist/bin)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dist/media)
@@ -213,17 +201,17 @@ if(UNIX)
 	install(TARGETS OgreApp
 		RUNTIME DESTINATION bin
 		CONFIGURATIONS All)
- 
+
 	install(DIRECTORY ${CMAKE_SOURCE_DIR}/dist/media
 		DESTINATION ./
 		CONFIGURATIONS Release RelWithDebInfo Debug
 	)
- 
+
 	install(FILES ${CMAKE_SOURCE_DIR}/dist/bin/plugins.cfg
 		${CMAKE_SOURCE_DIR}/dist/bin/resources.cfg
 		DESTINATION bin
 		CONFIGURATIONS Release RelWithDebInfo Debug
 	)
- 
+
 endif(UNIX)
 
