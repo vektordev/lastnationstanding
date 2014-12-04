@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../shared/GameState.h"
+#include <GameState.h>
 
 int main(){
 	std::cout<<"Client Hello World"<<std::endl;

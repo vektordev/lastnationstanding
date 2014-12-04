@@ -86,7 +86,6 @@ endif()
 
 #TODO:
 #replace install script, as required.
-#change inclusion method for shared_hdr in executables?
 
 set(client_src
 	./src/client/main_client.cpp
@@ -113,6 +112,7 @@ include_directories(
 	${OGRE_INCLUDE_DIRS}
 	${OGRE_SAMPLES_INCLUDEPATH}
 	${OGRE_Overlay_INCLUDE_DIRS}
+    ./src/shared
 )
 
 add_library(LNS_shared STATIC ${shared_src} ${shared_hdr})
