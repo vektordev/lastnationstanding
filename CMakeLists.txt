@@ -1,6 +1,6 @@
 #shamelessly ripped from the Ogre3d wiki tutorial framework - and expanded upon some.
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 project(OgreApp)
 
@@ -84,13 +84,24 @@ if(NOT BULLET_FOUND)
 endif() 
 # /Find BULLET #################################################################
 
+
+#because we'd like to use c++11
+if(CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-std=gnu++0x)
+endif()
+
+
 #TODO:
 #replace install script, as required.
 
 set(client_src
 	./src/client/main_client.cpp
+	./src/client/Renderer.cpp
+	./src/client/InputSystem.cpp
 )
 set(client_hdr
+	./src/client/Renderer.h
+	./src/client/InputSystem.h
 )
 
 set(shared_src
@@ -197,21 +208,27 @@ if(WIN32)
 endif(WIN32)
 
 if(UNIX)
+	message("Installing from")
+	message(${CMAKE_SOURCE_DIR})
+	message("To")
+	message(${CMAKE_CURRENT_BINARY_DIR})
 
 	install(TARGETS OgreApp
 		RUNTIME DESTINATION bin
 		CONFIGURATIONS All)
 
-	install(DIRECTORY ${CMAKE_SOURCE_DIR}/dist/media
-		DESTINATION ./
-		CONFIGURATIONS Release RelWithDebInfo Debug
+	install(DIRECTORY ${CMAKE_SOURCE_DIR}/dist/ #/media
+		DESTINATION ${CMAKE_CURRENT_BINARY_DIR} #./
+		CONFIGURATIONS All
 	)
 
 	install(FILES ${CMAKE_SOURCE_DIR}/dist/bin/plugins.cfg
 		${CMAKE_SOURCE_DIR}/dist/bin/resources.cfg
-		DESTINATION bin
-		CONFIGURATIONS Release RelWithDebInfo Debug
+		DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/ #bin
+		CONFIGURATIONS All
 	)
+
+	file(COPY ${CMAKE_SOURCE_DIR}/dist DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 
 endif(UNIX)
 

@@ -75,3 +75,7 @@ void GameState::bulletTest(){
 	//end of bullet helloWorld
 }
 
+void GameState::tick(){
+    static_assert(__cplusplus > 199711L, "cpperror");
+}
+
