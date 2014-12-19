@@ -108,9 +108,15 @@ set(client_hdr
 
 set(shared_src
 	./src/shared/GameState.cpp
+	./src/shared/Entity.cpp
+	./src/shared/RenderableComponent.cpp
+	./src/shared/Component.cpp
 )
 set(shared_hdr
 	./src/shared/GameState.h
+	./src/shared/Entity.h
+	./src/shared/RenderableComponent.h
+	./src/shared/Component.h
 )
 
 set(server_src
