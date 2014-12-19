@@ -98,10 +98,12 @@ set(client_src
 	./src/client/main_client.cpp
 	./src/client/Renderer.cpp
 	./src/client/InputSystem.cpp
+	./src/client/GameApp.cpp
 )
 set(client_hdr
 	./src/client/Renderer.h
 	./src/client/InputSystem.h
+	./src/client/GameApp.h
 )
 
 set(shared_src
