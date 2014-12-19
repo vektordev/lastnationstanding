@@ -5,10 +5,11 @@
 #include <OISKeyboard.h>
 #include <OISJoyStick.h>
 #include <OISMouse.h>
+#include <OgreWindowEventUtilities.h>
 #include <vector>
 namespace Ogre{
-	class Ogre::RenderWindow;
-}
+	class RenderWindow;
+};
 
 class InputSystem : public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener, public Ogre::WindowEventListener
 {

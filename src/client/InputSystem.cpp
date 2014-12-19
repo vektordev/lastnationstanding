@@ -18,7 +18,7 @@ void InputSystem::getInput(){
 
 void InputSystem::init(Ogre::RenderWindow *renderWindow){
 	if(mInputMgr) return;
-	mRenderWnd = renderWindow;
+	mRenderWindow = renderWindow;
 	// Setup basic variables
 	OIS::ParamList paramList;
 	size_t windowHnd = 0;
@@ -44,14 +44,14 @@ void InputSystem::init(Ogre::RenderWindow *renderWindow){
 		int left, top;
 		renderWindow->getMetrics( width, height, depth, left, top );
 		// Set mouse region
-		this->setWindowExtents( width, height );
+		mMouse->getMouseState().width = width;
+		mMouse->getMouseState().height = height;
+		
 	}
 	// If possible create all joysticks in buffered mode
 	if (mInputMgr->getNumberOfDevices(OIS::OISJoyStick) > 0) {
 		mJoysticks.resize( mInputMgr->getNumberOfDevices(OIS::OISJoyStick) );
-		itJoystick = mJoysticks.begin();
-		itJoystickEnd = mJoysticks.end();
-		for(; itJoystick != itJoystickEnd; ++itJoystick ) {
+		for(std::vector<OIS::JoyStick*>::iterator itJoystick = mJoysticks.begin(); itJoystick != mJoysticks.end(); ++itJoystick ) {
 			(*itJoystick) = static_cast<OIS::JoyStick*>( mInputMgr->createInputObject( OIS::OISJoyStick, true ) );
 			(*itJoystick)->setEventCallback( this );
 		}
@@ -67,7 +67,7 @@ void InputSystem::windowClosed(){
 		mMouse = 0;
 		mInputMgr->destroyInputObject(mKeyboard);
 		mKeyboard = 0;
-		for(OIS::Joystick* i: mJoysticks)
+		for(OIS::JoyStick* i: mJoysticks)
 			mInputMgr->destroyInputObject(i);
 		mJoysticks = std::vector<OIS::JoyStick*>();
 
@@ -78,7 +78,7 @@ void InputSystem::windowClosed(){
 }
 void InputSystem::windowResized(unsigned int width, unsigned int height){
 	//register new window size with Input System.
-	const OIS::MouseState &ms = m_Mouse->getMouseState();
+	const OIS::MouseState &ms = mMouse->getMouseState();
 	ms.width = width;
 	ms.height = height;
 }
