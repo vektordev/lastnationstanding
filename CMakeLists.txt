@@ -24,7 +24,7 @@ if(UNIX)
 
 	else ()
 	  message(SEND_ERROR "Failed to find module path.")
-	endif(EXISTS "/usr/local/lib/OGRE")
+	endif(EXISTS "/usr/local/lib/OGRE/cmake") # this line produced a warning. Added "/cmake" as a fix
 endif(UNIX)
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
@@ -111,12 +111,16 @@ set(shared_src
 	./src/shared/Entity.cpp
 	./src/shared/RenderableComponent.cpp
 	./src/shared/Component.cpp
+	./src/shared/ComponentSystem.cpp
+	./src/shared/EntityFactory.cpp
 )
 set(shared_hdr
 	./src/shared/GameState.h
 	./src/shared/Entity.h
 	./src/shared/RenderableComponent.h
 	./src/shared/Component.h
+	./src/shared/ComponentSystem.h
+	./src/shared/EntityFactory.h
 )
 
 set(server_src

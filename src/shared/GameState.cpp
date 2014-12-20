@@ -1,6 +1,12 @@
-#include <iostream>
 #include "GameState.h"
+
+#include <iostream>
 #include <btBulletDynamicsCommon.h>
+
+GameState::GameState() : mComponentSystem(), mEntityFactory(mComponentSystem){
+}
+
+GameState::~GameState(){}
 
 void GameState::sayHello(){
 	std::cout<<"GS says hello!"<<std::endl;
@@ -75,7 +81,10 @@ void GameState::bulletTest(){
 	//end of bullet helloWorld
 }
 
+bool GameState::init(){}
+
 void GameState::tick(){
     static_assert(__cplusplus > 199711L, "cpperror");
 }
 
+void GameState::destroy(){}

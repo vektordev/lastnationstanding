@@ -85,20 +85,24 @@ void InputSystem::windowResized(unsigned int width, unsigned int height){
 
 
 bool InputSystem::keyPressed( const OIS::KeyEvent &e ){
-
+	std::cout<<"got input"<<std::endl;
 }
 bool InputSystem::keyReleased( const OIS::KeyEvent &e ){
+	std::cout<<"got input"<<std::endl;
 
 }
 
 
 bool InputSystem::mouseMoved( const OIS::MouseEvent &e ){
+	std::cout<<"got input"<<std::endl;
 
 }
 bool InputSystem::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id ){
+	std::cout<<"got input"<<std::endl;
 
 }
 bool InputSystem::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id ){
+	std::cout<<"got input"<<std::endl;
 
 }
 
